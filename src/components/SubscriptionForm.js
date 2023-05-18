@@ -6,10 +6,6 @@ export default function SubscriptionForm() {
   let [alertClass, setAlertClass] = useState("");
   var parentComp = useRef();
 
-  console.log("email", email);
-  console.log("alertClass", alertClass);
-  console.log("parentComp", parentComp.current);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -25,15 +21,13 @@ export default function SubscriptionForm() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
-        JSON.parse(`${data}`);
+        console.log(data);
+        hitToast(data.message, data.success ? "success" : "error");
       })
-      .then((data) =>
-        hitToast(data.message, data.success ? "success" : "error")
-      )
-      .catch(() =>
-        hitToast("Something went wrong. Please try again.", "error")
-      );
+      .catch((err) => {
+        console.log(err);
+        return hitToast("Something went wrong. Please try again.", "error");
+      });
 
     setAlertClass("");
   };
